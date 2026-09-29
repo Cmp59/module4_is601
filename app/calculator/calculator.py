@@ -2,33 +2,58 @@
 
 from ..calculation import CalculationFactory, CalculationHistory
 
+HELP_TEXT = (
+    "Commands: help, history, exit (q also exits).\n"
+    "Operations: +, -, *, /.\n"
+    "Enter two numbers and an operation to calculate."
+)
+
+
+def _handle_command(user_input, history):
+    """Handle a REPL command, returning its control-flow action."""
+    command = user_input.lower()
+    if command in ("q", "exit"):
+        return "exit"
+    if command == "help":
+        print(HELP_TEXT)
+        return "handled"
+    if command == "history":
+        print(history.format_entries())
+        return "handled"
+    return None
+
 
 def calculator():
     """Run the calculator until the user chooses to quit."""
     history = CalculationHistory()
     print(
-        "Calculator: enter q at any prompt to quit, or 'history' "
-        "at the first-number prompt to view calculations."
+        "Calculator: enter help for commands. Enter exit or q at any prompt to quit."
     )
 
     while True:
         first_input = input("First number: ").strip()
-        if first_input.lower() == "q":
+        command_action = _handle_command(first_input, history)
+        if command_action == "exit":
             break
-        if first_input.lower() == "history":
-            print(history.format_entries())
+        if command_action == "handled":
             continue
 
         operator = input("Operation (+, -, *, /): ").strip()
-        if operator.lower() == "q":
+        command_action = _handle_command(operator, history)
+        if command_action == "exit":
             break
+        if command_action == "handled":
+            continue
         if not CalculationFactory.supports(operator):
             print("Please choose +, -, *, or /.")
             continue
 
         second_input = input("Second number: ").strip()
-        if second_input.lower() == "q":
+        command_action = _handle_command(second_input, history)
+        if command_action == "exit":
             break
+        if command_action == "handled":
+            continue
 
         try:
             first_number = float(first_input)

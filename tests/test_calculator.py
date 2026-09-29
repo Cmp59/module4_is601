@@ -28,20 +28,23 @@ def test_calculator_performs_operations(
     assert expected_result in capsys.readouterr().out
 
 
-def test_calculator_quits_at_first_number(capsys):
-    with patch("builtins.input", return_value="q"):
+@pytest.mark.parametrize("quit_command", ["q", "exit"])
+def test_calculator_quits_at_first_number(quit_command, capsys):
+    with patch("builtins.input", return_value=quit_command):
         calculator()
 
-    assert "enter q at any prompt to quit" in capsys.readouterr().out
+    assert "Enter exit or q at any prompt to quit" in capsys.readouterr().out
 
 
-def test_calculator_quits_at_operator():
-    with patch("builtins.input", side_effect=["2", "q"]):
+@pytest.mark.parametrize("quit_command", ["q", "exit"])
+def test_calculator_quits_at_operator(quit_command):
+    with patch("builtins.input", side_effect=["2", quit_command]):
         calculator()
 
 
-def test_calculator_quits_at_second_number():
-    with patch("builtins.input", side_effect=["2", "+", "q"]):
+@pytest.mark.parametrize("quit_command", ["q", "exit"])
+def test_calculator_quits_at_second_number(quit_command):
+    with patch("builtins.input", side_effect=["2", "+", quit_command]):
         calculator()
 
 
@@ -75,6 +78,29 @@ def test_calculator_handles_division_by_zero(capsys):
 
 def test_calculator_displays_empty_history(capsys):
     with patch("builtins.input", side_effect=["history", "q"]):
+        calculator()
+
+    assert "No calculations yet." in capsys.readouterr().out
+
+
+def test_calculator_help_command(capsys):
+    with patch("builtins.input", side_effect=["help", "exit"]):
+        calculator()
+
+    output = capsys.readouterr().out
+    assert "Commands: help, history, exit" in output
+    assert "Operations: +, -, *, /." in output
+
+
+def test_calculator_handles_help_at_operator_prompt(capsys):
+    with patch("builtins.input", side_effect=["2", "help", "exit"]):
+        calculator()
+
+    assert "Commands: help, history, exit" in capsys.readouterr().out
+
+
+def test_calculator_handles_history_at_second_number_prompt(capsys):
+    with patch("builtins.input", side_effect=["2", "+", "history", "exit"]):
         calculator()
 
     assert "No calculations yet." in capsys.readouterr().out
