@@ -1,4 +1,4 @@
-"""Calculator operations."""
+"""Arithmetic operations package."""
 
 from .operations import Operations
 

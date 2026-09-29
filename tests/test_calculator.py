@@ -1,9 +1,10 @@
 from unittest.mock import patch
 import runpy
+import sys
 
 import pytest
 
-from application.Calcs.calculator import calculator
+from app.calculator.calculator import calculator
 
 
 @pytest.mark.parametrize(
@@ -72,6 +73,7 @@ def test_calculator_handles_division_by_zero(capsys):
     assert "You cannot divide by zero." in capsys.readouterr().out
 
 
-def test_calculator_module_starts_repl():
+def test_calculator_module_starts_repl(monkeypatch):
+    monkeypatch.delitem(sys.modules, "app.calculator.calculator", raising=False)
     with patch("builtins.input", return_value="q"):
-        runpy.run_module("application.Calcs.calculator", run_name="__main__")
+        runpy.run_module("app.calculator.calculator", run_name="__main__")

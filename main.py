@@ -1,6 +1,6 @@
 """Start the command-line calculator."""
 
-from application.Calcs.calculator import calculator
+from app.calculator.calculator import calculator
 
 
 if __name__ == "__main__":

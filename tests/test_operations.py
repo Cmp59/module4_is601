@@ -1,6 +1,6 @@
 import pytest
 
-from application.ops.operations import Operations
+from app.operation.operations import Operations
 
 
 @pytest.mark.parametrize(

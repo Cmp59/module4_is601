@@ -1,4 +1,4 @@
-# Module 3 Calculator
+# Module 4 Calculator
 
 A command-line calculator built with Python and object-oriented design.
 
@@ -42,8 +42,9 @@ python -m pytest --cov-fail-under=100
 
 ## Project Structure
 
-- `application/ops/operations.py`: `Operations` class and arithmetic methods
-- `application/Calcs/calculator.py`: Interactive calculator REPL
+- `app/operation/operations.py`: `Operations` class and arithmetic methods
+- `app/calculator/calculator.py`: Interactive calculator REPL
+- `app/calculation/`: Calculation model and factory package
 - `tests/test_operations.py`: Parameterized arithmetic tests
 - `tests/test_calculator.py`: REPL tests
 - `.github/workflows/ci.yml`: GitHub Actions configuration

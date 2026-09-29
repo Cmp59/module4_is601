@@ -1,6 +1,6 @@
 """Command-line calculator."""
 
-from ..ops.operations import Operations
+from ..operation import Operations
 
 
 def calculator():
