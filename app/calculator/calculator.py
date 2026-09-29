@@ -1,17 +1,10 @@
 """Command-line calculator."""
 
-from ..operation import Operations
+from ..calculation import CalculationFactory
 
 
 def calculator():
     """Run the calculator until the user chooses to quit."""
-    operations = {
-        "+": Operations.addition,
-        "-": Operations.subtraction,
-        "*": Operations.multiplication,
-        "/": Operations.division,
-    }
-
     print("Calculator: enter q at any prompt to quit.")
 
     while True:
@@ -22,7 +15,7 @@ def calculator():
         operator = input("Operation (+, -, *, /): ").strip()
         if operator.lower() == "q":
             break
-        if operator not in operations:
+        if not CalculationFactory.supports(operator):
             print("Please choose +, -, *, or /.")
             continue
 
@@ -33,7 +26,10 @@ def calculator():
         try:
             first_number = float(first_input)
             second_number = float(second_input)
-            result = operations[operator](first_number, second_number)
+            calculation = CalculationFactory.create(
+                operator, first_number, second_number
+            )
+            result = calculation.perform()
         except ValueError as error:
             print(f"Error: {error}")
             continue
