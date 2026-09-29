@@ -32,7 +32,7 @@ def test_calculator_quits_at_first_number(capsys):
     with patch("builtins.input", return_value="q"):
         calculator()
 
-    assert "Calculator: enter q at any prompt to quit." in capsys.readouterr().out
+    assert "enter q at any prompt to quit" in capsys.readouterr().out
 
 
 def test_calculator_quits_at_operator():
@@ -71,6 +71,32 @@ def test_calculator_handles_division_by_zero(capsys):
         calculator()
 
     assert "You cannot divide by zero." in capsys.readouterr().out
+
+
+def test_calculator_displays_empty_history(capsys):
+    with patch("builtins.input", side_effect=["history", "q"]):
+        calculator()
+
+    assert "No calculations yet." in capsys.readouterr().out
+
+
+def test_calculator_displays_completed_history(capsys):
+    with patch("builtins.input", side_effect=["2", "+", "3", "history", "q"]):
+        calculator()
+
+    assert "1. 2.0 + 3.0 = 5.0" in capsys.readouterr().out
+
+
+def test_failed_calculation_is_not_added_to_history(capsys):
+    with patch(
+        "builtins.input",
+        side_effect=["2", "/", "0", "history", "q"],
+    ):
+        calculator()
+
+    output = capsys.readouterr().out
+    assert "You cannot divide by zero." in output
+    assert "No calculations yet." in output
 
 
 def test_calculator_module_starts_repl(monkeypatch):

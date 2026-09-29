@@ -29,4 +29,4 @@ class CalculationFactory:
         except KeyError as error:
             raise ValueError(f"Unsupported operation: {operator}") from error
 
-        return Calculation(first_number, second_number, operation)
+        return Calculation(first_number, second_number, operator, operation)

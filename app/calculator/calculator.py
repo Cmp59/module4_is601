@@ -1,16 +1,23 @@
 """Command-line calculator."""
 
-from ..calculation import CalculationFactory
+from ..calculation import CalculationFactory, CalculationHistory
 
 
 def calculator():
     """Run the calculator until the user chooses to quit."""
-    print("Calculator: enter q at any prompt to quit.")
+    history = CalculationHistory()
+    print(
+        "Calculator: enter q at any prompt to quit, or 'history' "
+        "at the first-number prompt to view calculations."
+    )
 
     while True:
         first_input = input("First number: ").strip()
         if first_input.lower() == "q":
             break
+        if first_input.lower() == "history":
+            print(history.format_entries())
+            continue
 
         operator = input("Operation (+, -, *, /): ").strip()
         if operator.lower() == "q":
@@ -34,6 +41,7 @@ def calculator():
             print(f"Error: {error}")
             continue
 
+        history.add(calculation)
         print(f"Result: {result}")
 
 

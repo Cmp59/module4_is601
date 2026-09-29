@@ -1,6 +1,6 @@
 import pytest
 
-from app.calculation import Calculation, CalculationFactory
+from app.calculation import Calculation, CalculationFactory, CalculationHistory
 
 
 @pytest.mark.parametrize(
@@ -35,3 +35,22 @@ def test_factory_rejects_unsupported_operator():
 
 def test_factory_reports_unsupported_operator():
     assert not CalculationFactory.supports("%")
+
+
+def test_history_starts_empty():
+    history = CalculationHistory()
+
+    assert history.get_all() == ()
+    assert history.format_entries() == "No calculations yet."
+
+
+def test_history_stores_and_formats_calculations():
+    history = CalculationHistory()
+    first_calculation = CalculationFactory.create("+", 2, 3)
+    second_calculation = CalculationFactory.create("*", 4, 5)
+
+    history.add(first_calculation)
+    history.add(second_calculation)
+
+    assert history.get_all() == (first_calculation, second_calculation)
+    assert history.format_entries() == "1. 2 + 3 = 5\n2. 4 * 5 = 20"

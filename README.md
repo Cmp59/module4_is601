@@ -24,7 +24,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 python main.py
 ```
 
-The calculator supports addition (`+`), subtraction (`-`), multiplication (`*`), and division (`/`). Enter `q` at any prompt to quit. The `CalculationFactory` creates a calculation instance for the selected operator, and the instance performs the requested operation.
+The calculator supports addition (`+`), subtraction (`-`), multiplication (`*`), and division (`/`). Enter `history` at the first-number prompt to view completed calculations, or enter `q` at any prompt to quit. The `CalculationFactory` creates a calculation instance for the selected operator, and completed instances are kept in session history.
 
 ## Run Tests
 
@@ -46,7 +46,8 @@ python -m pytest --cov-fail-under=100
 - `app/calculator/calculator.py`: Interactive calculator REPL
 - `app/calculation/calculation.py`: Calculation instances and their `perform()` method
 - `app/calculation/calculation_factory.py`: Creates calculation instances by operator
+- `app/calculation/calculation_history.py`: Stores and displays session calculations
 - `tests/test_operations.py`: Parameterized arithmetic tests
-- `tests/test_calculations.py`: Calculation and factory tests
+- `tests/test_calculations.py`: Calculation, factory, and history tests
 - `tests/test_calculator.py`: REPL tests
 - `.github/workflows/ci.yml`: GitHub Actions configuration
