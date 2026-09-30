@@ -29,6 +29,7 @@ def calculator():
     print(
         "Calculator: enter help for commands. Enter exit or q at any prompt to quit."
     )
+    print("Commands: help, history, exit (q also exits).")
 
     while True:
         first_input = input("First number: ").strip()

@@ -33,7 +33,9 @@ def test_calculator_quits_at_first_number(quit_command, capsys):
     with patch("builtins.input", return_value=quit_command):
         calculator()
 
-    assert "Enter exit or q at any prompt to quit" in capsys.readouterr().out
+    output = capsys.readouterr().out
+    assert "Enter exit or q at any prompt to quit" in output
+    assert "Commands: help, history, exit (q also exits)." in output
 
 
 @pytest.mark.parametrize("quit_command", ["q", "exit"])
